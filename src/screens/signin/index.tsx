@@ -15,7 +15,6 @@ import { useEffect, useState } from "react";
 
 import { Realm, useApp } from '@realm/react';
 
-GoogleSignin.configure();
 
 webBrowser.maybeCompleteAuthSession();
 
