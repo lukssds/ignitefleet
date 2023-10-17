@@ -9,6 +9,7 @@ import Home from './src/screens/home';
 import { Routes } from './src/routes';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { RealmProvider } from './src/libs/realm';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
@@ -25,7 +26,9 @@ export default function App() {
       <SafeAreaProvider>
         <StatusBar style='light' translucent={true} backgroundColor='transparent' ></StatusBar>
         <UserProvider fallback={Signin}>
+          <RealmProvider>
           <Routes />
+          </RealmProvider>
         </UserProvider>
       </SafeAreaProvider>
       </ThemeProvider>
