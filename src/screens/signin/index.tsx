@@ -54,19 +54,6 @@ async function googleSignin(){
   }
 }
 
-// depreciada
-/* function handleSigninGoogle() {
-  setIsAuthenticating(true);
-
-  googleSigin().then((response) => {
-    if(response.type !== 'success') { 
-      setIsAuthenticating(false)
-
-    }}).catch((error) => { 
-      console.log(error)
-      setIsAuthenticating(false)
-     })
-}  */
 
 useEffect(() => {
   GoogleSignin.configure({ 
