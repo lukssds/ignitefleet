@@ -1,9 +1,9 @@
 import styled  from 'styled-components/native'
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
     width:100%;
-    margin:32px;
     padding:22px;
+    margin-top:32px;
     border-radius:6px;
 
     background-color:${({theme})=>theme.COLORS.GRAY_700};
@@ -17,17 +17,19 @@ export const  IconBox = styled.View`
     background-color: ${({theme})=>theme.COLORS.GRAY_600};
     margin-right: 12px;
 
-    justifu-content:center;
+    justify-content:center;
     align-items:center;
 `
 export const Message = styled.Text`
-    color:${({theme})=>theme.COLORS.GRAY_600};
-    font-size: ${({theme})=>theme.FONTS.SIZE.SM}px;
-    font-family: ${({theme})=>theme.FONTS.FAMILY.REGULAR}px
+    flex:1;
+    text-align-vertical:center;
+    color:${({theme})=>theme.COLORS.GRAY_100};
+    font-size: ${({theme})=>theme.FONT_SIZE.SM}px;
+    font-family: ${({theme})=>theme.FONT_FAMILY.REGULAR}px
 `
 export const TextHighlight = styled.Text`
-    color:${({theme})=>theme.COLORS.GRAY_600};
-    font-size: ${({theme})=>theme.FONTS.SIZE.SM}px;
-    font-family: ${({theme})=>theme.FONTS.FAMILY.REGULAR}px
+    color:${({theme})=>theme.COLORS.BRAND_LIGHT};
+    font-size: ${({theme})=>theme.FONT_SIZE.SM}px;
+    font-family: ${({theme})=>theme.FONT_FAMILY.REGULAR}px
     
 `

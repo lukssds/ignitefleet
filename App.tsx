@@ -23,7 +23,7 @@ export default function App() {
   return (
     <AppProvider id={REALM_APP_ID}>
       <ThemeProvider theme={theme}>
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{flex:1, backgroundColor:theme.COLORS.GRAY_800}}>
         <StatusBar style='light' translucent={true} backgroundColor='transparent' ></StatusBar>
         <UserProvider fallback={Signin}>
           <RealmProvider>
