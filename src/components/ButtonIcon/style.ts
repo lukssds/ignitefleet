@@ -2,14 +2,13 @@ import styled from "styled-components/native";
 
 
 export const Container = styled.TouchableOpacity    `
-  flex: 1;
-  width: 100%;
-  min-height: 56px;
-  max-height: 56px;
+  width: 56pc;
+  height: 56px;
   border-radius: 6px; 
   align-items: center;
+  padding: 12px;
   justify-content: center;  
-  background-color: ${({ theme }) => theme.COLORS.BRAND_MID};
+  background-color: ${({ theme }) => theme.COLORS.GRAY_600};
 `;
 
 export const Title = styled.Text`

@@ -1,12 +1,13 @@
 import { useTheme } from "styled-components/native";
 import { Container, Input, Label } from "./style"
-import { TextInputProps } from "react-native";
+import { TextInput, TextInputProps } from "react-native";
+import { forwardRef } from "react";
 
 type Props= TextInputProps &{
     label: string;
 }
 
-export default function LicensePlateInput({label, ...rest}: Props){
+const  LicensePlateInput = forwardRef<TextInput, Props> (({label, ...rest}, ref) =>{
 
     const {COLORS} = useTheme()
     return(
@@ -15,6 +16,7 @@ export default function LicensePlateInput({label, ...rest}: Props){
                 {label}
             </Label>
             <Input
+                ref= {ref}
                 maxLength={7}
                 autoCapitalize='characters'
                 placeHolderTextColor={COLORS.GRAY_400}
@@ -22,4 +24,5 @@ export default function LicensePlateInput({label, ...rest}: Props){
             />
         </Container>
     )
-}
+})
+export {LicensePlateInput}

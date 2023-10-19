@@ -1,3 +1,5 @@
+  import 'react-native-get-random-values'
+
 import { AppProvider, UserProvider } from '@realm/react'
 import Signin from './src/screens/signin';
 import { ThemeProvider } from 'styled-components/native';
@@ -10,6 +12,7 @@ import { Routes } from './src/routes';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { RealmProvider } from './src/libs/realm';
+import  './src/libs/dayjs'
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
