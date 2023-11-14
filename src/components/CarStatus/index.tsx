@@ -18,7 +18,7 @@ export default function CarStatus({ liscensePlate = null, ...rest}: Props) {
     return (
         <Container {...rest}>
             <IconBox>
-                <Icon size={32}
+                <Icon size={52}
                     color={theme.COLORS.BRAND_LIGHT} />
             </IconBox>
             <Message>

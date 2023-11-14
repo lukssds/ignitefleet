@@ -10,6 +10,8 @@ import { Historic } from "../../libs/realm/schemas/historic";
 import { useEffect, useState } from "react";
 import HistoricCard, { HistoricCardProps } from "../../components/HistoricCard";
 import dayjs from "dayjs";
+import { useUser } from "@realm/react";
+import { getLastSyncTimeStamp, saveLastSyncTimeStamp } from "../../libs/asyncStorage/syncStorage";
 
 export default function Home() {
 
@@ -19,6 +21,7 @@ export default function Home() {
   const { navigate } = useNavigation()
 
   const historic = useQuery(Historic)
+  const user = useUser()
 
   function fetchVehicleInUse() {
     try {
@@ -37,10 +40,10 @@ export default function Home() {
     navigate('departure')
   }
 
-  function fetchHistoric() {
+  async function fetchHistoric() {
     try {
       const arrival = historic.filtered("status = 'arrival' SORT(created_at DESC)")
-
+      const lastSync = await getLastSyncTimeStamp()
       const formatedHistoric = arrival.map((item) => {
         return ({
           id: item._id.toString(),
@@ -57,19 +60,52 @@ export default function Home() {
 
   }
 
+  function handleHistoricDetails(id: string) {
+    navigate('arrival', { id })
 
+  }
+
+ async function addProgressNotification(tranferred:number, tranferable: number) {
+    const percentege = (tranferred / tranferable) * 100
+
+    if(percentege === 100) {
+      await saveLastSyncTimeStamp()
+      fetchHistoric()
+    }
+
+  }
   useEffect(() => {
     fetchVehicleInUse()
   }, [])
 
   useEffect(() => {
     realm.addListener('change', () => fetchVehicleInUse())
-    return () => { realm.removeListener('change', () => fetchVehicleInUse()) }
+    return () => {
+      if (!realm.isClosed && realm) {
+        realm.removeListener('change', () => fetchVehicleInUse())
+      }
+
+    }
   }, [])
 
   useEffect(() => {
     fetchHistoric()
   }, [historic])
+
+  useEffect(() => {
+    const syncSession =  realm.syncSession
+    if(syncSession) {
+      syncSession.addProgressNotification(Realm.ProgressDirection.Upload, Realm.ProgressMode.ReportIndefinitely,addProgressNotification  )
+    }
+    return () => { syncSession?.removeProgressNotification(addProgressNotification) }
+   }, [vehicleHistoric])
+
+  useEffect(() => {
+    realm.subscriptions.update((mutableSubs, realm) => {
+      const historicByUserQuery = realm.objects('Historic').filtered(`user_id = '${user!.id}'`)
+      mutableSubs.add(historicByUserQuery, { name: 'historic_by_user' })
+    })
+  }, [])
   return (
     <Container >
       <HeaderHome />
@@ -79,7 +115,7 @@ export default function Home() {
         <FlatList
           data={vehicleHistoric}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => <HistoricCard data={item} />}
+          renderItem={({ item }) => <HistoricCard data={item} onPress={() => handleHistoricDetails(item.id)} />}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 20 }}
           ListEmptyComponent={(
